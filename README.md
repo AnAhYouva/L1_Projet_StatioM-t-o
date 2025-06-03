@@ -7,26 +7,63 @@ Il vise à mettre en pratique l’interfaçage de capteurs, la communication sé
 
 
 ⚙️ Fonctionnement du système
-Lecture des capteurs
-La carte ESP32 est connectée à des capteurs permettant de mesurer :
 
-la température et l’humidité (capteur SI7021),
+Voici les principales étapes suivies pour réaliser le projet :
 
-la luminosité ambiante (capteur analogique).
+1. Programmation de la carte ESP32 (UCA Board)
 
-Transmission des données
-Les valeurs mesurées sont envoyées à l’ordinateur via le port série USB, selon un format simple (par exemple, séparé par des virgules ou des retours à la ligne).
+Deux codes Arduino ont été utilisés :
 
-Traitement en Python
-Un script Python lit en continu les données reçues via le port série grâce à la bibliothèque pyserial. Il extrait les valeurs numériques et les prépare pour l’affichage.
+Un pour le capteur SI7021 afin de lire la température et l'humidité
 
-Affichage avec Tkinter
-Les données sont affichées en direct dans une fenêtre graphique Tkinter. L’interface est conçue pour être lisible, avec des champs mis à jour en temps réel.
+Un autre pour le capteur LTR-303ALS pour mesurer la luminosité
 
-(Optionnel) Des extensions peuvent être ajoutées, comme :
+Ces deux programmes ont été fusionnés pour envoyer les trois valeurs dans le port série au format :
 
-l’enregistrement automatique des mesures dans un fichier CSV,
+T=25;H=60;L=432
 
-l’affichage graphique en temps réel avec Matplotlib,
+2. Communication série
 
-ou l’envoi des données à distance via LoRaWAN.
+La carte envoie les données en boucle via le port COM (USB)
+
+Le débit série est de 115200 bauds
+
+3. Script Python
+
+Un fichier station_meteo_tkinter.py lit les données du port série
+
+Le script analyse les données reçues (séparées par ;)
+
+Il met à jour dynamiquement les étiquettes de l'interface Tkinter
+
+4. Interface Graphique (Tkinter)
+
+Une fenêtre avec trois champs est affichée :
+
+🌡 Température
+
+💧 Humidité
+
+💡 Luminosité
+
+Un indicateur de statut montre si le port COM est connecté ou non
+
+▶️ Utilisation
+
+Connecter la carte UCA au PC
+
+Flasher le code Arduino fusionné
+
+Lancer le script Python avec :
+
+python station_meteo_tkinter.py
+
+Les valeurs s'affichent automatiquement dans la fenêtre Tkinter
+
+🔄 Perspectives
+
+Ajouter un graphique en temps réel (Matplotlib)
+
+Export CSV des données
+
+Interface Web ou envoi à distance via LoRaWAN
