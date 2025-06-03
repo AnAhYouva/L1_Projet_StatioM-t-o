@@ -1,38 +1,32 @@
 🌦️ Station Météo avec ESP32, Python et Tkinter
 🔧 Présentation du projet
-Ce projet consiste à réaliser une station météo simple capable de mesurer la température, l’humidité et la luminosité. Les données sont collectées à l’aide de capteurs connectés à une carte ESP32 (UCA Education Board), puis transmises en série USB à un ordinateur.
+Ce projet a pour but de réaliser une station météo capable de mesurer trois paramètres environnementaux : la température, l’humidité et la lumière. Pour cela, on utilise une carte ESP32 (UCA Education Board) reliée à plusieurs capteurs. Les données collectées sont envoyées en temps réel à un ordinateur via une liaison série USB, puis traitées et affichées dans une interface graphique développée en Python avec Tkinter. Ce projet s’inscrit dans le cadre du module CSF 2024-2025.
 
-Un script Python lit ces données en temps réel, les affiche dans une interface graphique Tkinter et propose diverses fonctionnalités supplémentaires.
-
-
-
-⚙️ Fonctionnement général
-Les capteurs mesurent la température, l’humidité et la lumière ambiante.
-
-L’ESP32 envoie les données via le port série USB.
-
-Un script Python lit les données et les affiche dans une fenêtre Tkinter.
-
-L’interface permet une lecture claire et en direct des mesures.
+Il vise à mettre en pratique l’interfaçage de capteurs, la communication série entre microcontrôleur et PC, ainsi que la création d’interfaces utilisateur simples en Python.
 
 
 
-🛠️ Problèmes rencontrés
-Détection difficile du port COM sous Windows.
+⚙️ Fonctionnement du système
+Lecture des capteurs
+La carte ESP32 est connectée à des capteurs permettant de mesurer :
 
-Valeurs parfois erronées du capteur SI7021.
+la température et l’humidité (capteur SI7021),
 
-Problèmes de synchronisation entre Arduino et Python.
+la luminosité ambiante (capteur analogique).
 
-Nécessité d’ajouter manuellement certaines bibliothèques Python sur Windows.
+Transmission des données
+Les valeurs mesurées sont envoyées à l’ordinateur via le port série USB, selon un format simple (par exemple, séparé par des virgules ou des retours à la ligne).
 
+Traitement en Python
+Un script Python lit en continu les données reçues via le port série grâce à la bibliothèque pyserial. Il extrait les valeurs numériques et les prépare pour l’affichage.
 
+Affichage avec Tkinter
+Les données sont affichées en direct dans une fenêtre graphique Tkinter. L’interface est conçue pour être lisible, avec des champs mis à jour en temps réel.
 
-🚀 Améliorations possibles
-Ajout d’un graphique en temps réel avec Matplotlib.
+(Optionnel) Des extensions peuvent être ajoutées, comme :
 
-Sauvegarde automatique des données dans un fichier CSV.
+l’enregistrement automatique des mesures dans un fichier CSV,
 
-Envoi des données via LoRaWAN vers The Things Network.
+l’affichage graphique en temps réel avec Matplotlib,
 
-Création d’un affichage web local grâce à un mini-serveur hébergé sur l’ESP32.
+ou l’envoi des données à distance via LoRaWAN.
