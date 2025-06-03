@@ -1,0 +1,61 @@
+
+import tkinter as tk
+import serial
+import threading
+
+# === Configuration port série ===
+PORT = "COM5"  # ⬅️ Change si nécessaire
+BAUDRATE = 115200
+
+# === Fenêtre principale ===
+root = tk.Tk()
+root.title("📊 Station Météo UCA")
+root.geometry("400x250")
+root.resizable(False, False)
+
+# === Titres et étiquettes ===
+title = tk.Label(root, text="Station Météo UCA", font=("Arial", 18, "bold"))
+title.pack(pady=10)
+
+temp_label = tk.Label(root, text="🌡 Température : -- °C", font=("Arial", 14))
+temp_label.pack(pady=5)
+
+hum_label = tk.Label(root, text="💧 Humidité    : -- %", font=("Arial", 14))
+hum_label.pack(pady=5)
+
+lux_label = tk.Label(root, text="💡 Luminosité  : -- lux", font=("Arial", 14))
+lux_label.pack(pady=5)
+
+status = tk.Label(root, text="🔄 En attente de données...", fg="gray")
+status.pack(pady=10)
+
+# === Fonction de lecture série ===
+def lire_donnees():
+    try:
+        ser = serial.Serial(PORT, BAUDRATE, timeout=2)
+        status.config(text=f"✅ Connecté à {PORT}", fg="green")
+
+        while True:
+            line = ser.readline().decode().strip()
+            if line.startswith("T=") and "H=" in line and "L=" in line:
+                try:
+                    valeurs = line.split(";")
+                    temp = valeurs[0].split("=")[1]
+                    hum = valeurs[1].split("=")[1]
+                    lux = valeurs[2].split("=")[1]
+
+                    temp_label.config(text=f"🌡 Température : {temp} °C")
+                    hum_label.config(text=f"💧 Humidité    : {hum} %")
+                    lux_label.config(text=f"💡 Luminosité  : {lux} lux")
+                except:
+                    status.config(text="⚠️ Format de ligne incorrect", fg="red")
+    except serial.SerialException:
+        status.config(text=f"❌ Impossible d’ouvrir {PORT}", fg="red")
+
+# === Lancement dans un thread parallèle (évite blocage GUI) ===
+thread = threading.Thread(target=lire_donnees)
+thread.daemon = True
+thread.start()
+
+# === Boucle principale ===
+root.mainloop()
