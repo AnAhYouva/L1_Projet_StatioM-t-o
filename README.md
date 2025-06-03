@@ -8,6 +8,9 @@ Il vise à mettre en pratique l’interfaçage de capteurs, la communication sé
 
 ⚙️ Fonctionnement du système
 
+<img src="schema_fonctionnement.png" alt="Schéma de fonctionnement" width="300">
+
+
 Voici les principales étapes suivies pour réaliser le projet :
 
 1. Programmation de la carte ESP32 (UCA Board)
@@ -59,6 +62,9 @@ Lancer le script Python avec :
 python station_meteo_tkinter.py
 
 Les valeurs s'affichent automatiquement dans la fenêtre Tkinter
+
+<img src="Résultat finale.png" alt="Résultat final" width="300">
+
 
 🔄 Perspectives
 
